@@ -28,7 +28,7 @@ function usage () {
 }
 
 function stop_running () {
-	systemctl stop-running
+	./systemctl stop-running
 	exit
 }
 trap exit TERM
@@ -58,7 +58,7 @@ function upgrade_server () {
 		fi
 	done
 	ipa-ldap-updater -u -q -y /data/ds-master-password
-	systemctl start certmonger.service
+	./systemctl start certmonger.service
 	ipa-upgradeconfig
 	for c in /etc/systemctl-lite-enabled/*-domainname.service ; do
 		base_c=$(basename $c)
@@ -131,7 +131,7 @@ if [ -f /etc/ipa/ca.crt ] ; then
 		done
 		upgrade_server
 	fi
-	systemctl start-enabled
+	./systemctl start-enabled
 	HOSTNAME_FQDN=$( hostname -f )
 	while ! host $HOSTNAME_FQDN > /dev/null ; do
 		sleep 5
